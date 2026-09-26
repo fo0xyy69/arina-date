@@ -1,7 +1,6 @@
-```javascript
+```text
 // Адрес твоего Cloudflare Worker
 const API_URL = "https://arina-date-telegram.strygin647.workers.dev";
-
 
 // Храним выбор Ариши
 const choices = {
@@ -13,12 +12,8 @@ const choices = {
 };
 
 
-// --------------------------------------------------
 // Переход между экранами
-// --------------------------------------------------
-
 function nextScreen(screenId) {
-
     document.querySelectorAll(".screen").forEach(function(screen) {
         screen.classList.remove("active");
     });
@@ -35,13 +30,8 @@ function nextScreen(screenId) {
 }
 
 
-// --------------------------------------------------
-// Дата
-// Можно выбрать только ОДНУ дату
-// --------------------------------------------------
-
+// Выбор даты
 document.querySelectorAll(".date-option").forEach(function(button) {
-
     button.addEventListener("click", function() {
 
         document.querySelectorAll(".date-option").forEach(function(item) {
@@ -54,17 +44,11 @@ document.querySelectorAll(".date-option").forEach(function(button) {
 
         document.getElementById("date-next").disabled = false;
     });
-
 });
 
 
-// --------------------------------------------------
-// Время
-// Можно выбрать только ОДНО время
-// --------------------------------------------------
-
+// Выбор времени
 document.querySelectorAll(".time-option").forEach(function(button) {
-
     button.addEventListener("click", function() {
 
         document.querySelectorAll(".time-option").forEach(function(item) {
@@ -77,16 +61,11 @@ document.querySelectorAll(".time-option").forEach(function(button) {
 
         document.getElementById("time-next").disabled = false;
     });
-
 });
 
 
-// --------------------------------------------------
-// Переходы
-// --------------------------------------------------
-
+// Переход к времени
 function goToTime() {
-
     if (!choices.date) {
         return;
     }
@@ -95,8 +74,8 @@ function goToTime() {
 }
 
 
+// Переход к занятиям
 function goToActivity() {
-
     if (!choices.time) {
         return;
     }
@@ -105,8 +84,8 @@ function goToActivity() {
 }
 
 
+// Переход к еде
 function goToFood() {
-
     if (choices.activities.length === 0) {
         return;
     }
@@ -115,10 +94,7 @@ function goToFood() {
 }
 
 
-// --------------------------------------------------
-// Раскрытие категорий
-// --------------------------------------------------
-
+// Открытие / закрытие категории
 function toggleCategory(categoryId, button) {
 
     const category = document.getElementById(categoryId);
@@ -140,11 +116,8 @@ function toggleCategory(categoryId, button) {
 }
 
 
-// --------------------------------------------------
 // Выбор занятий
-// Можно выбрать НЕСКОЛЬКО
-// --------------------------------------------------
-
+// Можно выбрать несколько
 document.querySelectorAll(".activity-option").forEach(function(button) {
 
     button.addEventListener("click", function() {
@@ -168,7 +141,6 @@ document.querySelectorAll(".activity-option").forEach(function(button) {
 
         updateActivityButton();
     });
-
 });
 
 
@@ -184,11 +156,8 @@ function updateActivityButton() {
 }
 
 
-// --------------------------------------------------
 // Выбор еды
-// Можно выбрать НЕСКОЛЬКО
-// --------------------------------------------------
-
+// Можно выбрать несколько
 document.querySelectorAll(".food-option").forEach(function(button) {
 
     button.addEventListener("click", function() {
@@ -220,14 +189,10 @@ document.querySelectorAll(".food-option").forEach(function(button) {
 
         updateFinishButton();
     });
-
 });
 
 
-// --------------------------------------------------
-// Свой вариант еды
-// --------------------------------------------------
-
+// Поле "Твой выбор"
 const customFoodInput = document.getElementById("custom-food-input");
 
 if (customFoodInput) {
@@ -275,11 +240,13 @@ function updateFinishButton() {
 
     const hasFood = choices.food.length > 0;
 
-    const customSelected = choices.food.indexOf("Твой выбор") !== -1;
+    const customSelected =
+        choices.food.indexOf("Твой выбор") !== -1;
 
-    const customHasText = choices.customFood.length > 0;
+    const customHasText =
+        choices.customFood.length > 0;
 
-    // Если выбран "Твой выбор", нужно обязательно написать текст
+
     if (customSelected && !customHasText) {
         button.disabled = true;
         return;
@@ -289,10 +256,7 @@ function updateFinishButton() {
 }
 
 
-// --------------------------------------------------
-// Формирование еды для Telegram
-// --------------------------------------------------
-
+// Формируем текст еды
 function getFoodText() {
 
     const foodList = choices.food.slice();
@@ -302,7 +266,8 @@ function getFoodText() {
         const index = foodList.indexOf("Твой выбор");
 
         if (index !== -1) {
-            foodList[index] = "Твой выбор: " + choices.customFood;
+            foodList[index] =
+                "Твой выбор: " + choices.customFood;
         }
     }
 
@@ -310,17 +275,15 @@ function getFoodText() {
 }
 
 
-// --------------------------------------------------
-// Отправка результата
-// --------------------------------------------------
-
+// Отправка результата в Telegram
 async function finishDate() {
 
-    if (!choices.date ||
+    if (
+        !choices.date ||
         !choices.time ||
         choices.activities.length === 0 ||
-        choices.food.length === 0) {
-
+        choices.food.length === 0
+    ) {
         return;
     }
 
@@ -336,7 +299,8 @@ async function finishDate() {
     };
 
 
-    const finishButton = document.getElementById("finish-button");
+    const finishButton =
+        document.getElementById("finish-button");
 
     finishButton.disabled = true;
     finishButton.textContent = "Отправляем ❤️";
@@ -372,6 +336,7 @@ async function finishDate() {
         finishButton.disabled = false;
         finishButton.textContent = "Готово ❤️";
 
+
         alert(
             "Не получилось отправить выбор 😔\n\n" +
             "Проверь интернет-соединение и попробуй ещё раз."
@@ -380,29 +345,35 @@ async function finishDate() {
 }
 
 
-// --------------------------------------------------
 // Финальный экран
-// --------------------------------------------------
-
 function showFinalScreen(result) {
 
-    const summary = document.getElementById("summary");
+    const summary =
+        document.getElementById("summary");
 
-    summary.innerHTML = `
-        <strong>📅 Дата:</strong> ${escapeHtml(result.date)}<br>
-        <strong>⏰ Время:</strong> ${escapeHtml(result.time)}<br>
-        <strong>🥰 Занятия:</strong> ${escapeHtml(result.activity)}<br>
-        <strong>🍽️ Еда:</strong> ${escapeHtml(result.food)}
-    `;
+
+    summary.innerHTML =
+        "<strong>📅 Дата:</strong> " +
+        escapeHtml(result.date) +
+        "<br>" +
+
+        "<strong>⏰ Время:</strong> " +
+        escapeHtml(result.time) +
+        "<br>" +
+
+        "<strong>🥰 Занятия:</strong> " +
+        escapeHtml(result.activity) +
+        "<br>" +
+
+        "<strong>🍽️ Еда:</strong> " +
+        escapeHtml(result.food);
+
 
     nextScreen("screen-done");
 }
 
 
-// --------------------------------------------------
-// Защита вывода пользовательского текста
-// --------------------------------------------------
-
+// Защита пользовательского текста
 function escapeHtml(text) {
 
     const div = document.createElement("div");
