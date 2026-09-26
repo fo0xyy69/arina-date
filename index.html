@@ -1,77 +1,346 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Для Арины ❤️</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для Ариши ❤️</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="app">
-    <div class="hearts" aria-hidden="true">♥　♡　♥　♡　♥</div>
 
-    <section class="screen active" id="intro">
-      <div class="card intro-card">
-        <div class="emoji">❤️</div>
-        <p class="eyebrow">маленькое приглашение</p>
-        <h1>Арина, давай выберем<br>наше свидание?</h1>
-        <p class="subtitle">Я приготовил для тебя несколько вариантов.<br>Выбирай то, чего хочется именно тебе.</p>
-        <button class="primary" onclick="start()">Выбрать ❤️</button>
-        <p class="from">От Андрея</p>
-      </div>
+<div class="background-hearts">
+    <span>❤</span>
+    <span>♡</span>
+    <span>❤</span>
+    <span>♡</span>
+    <span>❤</span>
+    <span>♡</span>
+</div>
+
+<main class="container">
+
+    <!-- 1. Приветствие -->
+    <section class="screen active" id="screen-intro">
+        <div class="card intro-card">
+            <div class="big-heart">❤️</div>
+
+            <h1>Ариша, давай<br>выберем наше свидание?</h1>
+
+            <p class="subtitle">
+                Я приготовил кое-что для нас ❤️
+            </p>
+
+            <p class="from">От Андрея</p>
+
+            <button class="main-button" onclick="nextScreen('screen-date')">
+                Давай 💕
+            </button>
+        </div>
     </section>
 
-    <section class="screen" id="date">
-      <div class="card">
-        <div class="step">1 / 4</div>
-        <h2>Когда увидимся?</h2>
-        <p class="hint">Выбери удобную дату</p>
-        <div class="options" id="dateOptions"></div>
-        <button class="next" onclick="go('time')">Дальше →</button>
-      </div>
+
+    <!-- 2. Дата -->
+    <section class="screen" id="screen-date">
+        <div class="card">
+            <div class="step">Шаг 1 из 4</div>
+
+            <h2>Когда пойдём? 📅</h2>
+            <p class="hint">Выбери один вариант</p>
+
+            <div class="options two-columns">
+                <button class="option date-option" data-value="03.11">
+                    <span class="option-icon">🌸</span>
+                    <span>03.11</span>
+                </button>
+
+                <button class="option date-option" data-value="04.11">
+                    <span class="option-icon">💗</span>
+                    <span>04.11</span>
+                </button>
+            </div>
+
+            <button class="continue-button" id="date-next" disabled
+                    onclick="goToTime()">
+                Далее →
+            </button>
+        </div>
     </section>
 
-    <section class="screen" id="time">
-      <div class="card">
-        <div class="step">2 / 4</div>
-        <h2>Во сколько?</h2>
-        <p class="hint">Когда тебе будет удобнее?</p>
-        <div class="options grid" id="timeOptions"></div>
-        <button class="next" onclick="go('activity')">Дальше →</button>
-      </div>
+
+    <!-- 3. Время -->
+    <section class="screen" id="screen-time">
+        <div class="card">
+            <div class="step">Шаг 2 из 4</div>
+
+            <h2>Во сколько? ⏰</h2>
+            <p class="hint">Выбери удобное время</p>
+
+            <div class="options">
+                <button class="option time-option" data-value="Утро">
+                    <span class="option-icon">🌅</span>
+                    <span>Утро</span>
+                </button>
+
+                <button class="option time-option" data-value="День">
+                    <span class="option-icon">☀️</span>
+                    <span>День</span>
+                </button>
+
+                <button class="option time-option" data-value="Вечер">
+                    <span class="option-icon">🌇</span>
+                    <span>Вечер</span>
+                </button>
+
+                <button class="option time-option" data-value="Поздний вечер">
+                    <span class="option-icon">🌙</span>
+                    <span>Поздний вечер</span>
+                </button>
+            </div>
+
+            <button class="continue-button" id="time-next" disabled
+                    onclick="goToActivity()">
+                Далее →
+            </button>
+        </div>
     </section>
 
-    <section class="screen" id="activity">
-      <div class="card">
-        <div class="step">3 / 4</div>
-        <h2>Чем займёмся?</h2>
-        <p class="hint">Выбирай, что хочется ❤️</p>
-        <div class="options" id="activityOptions"></div>
-        <button class="next" onclick="go('food')">Дальше →</button>
-      </div>
+
+    <!-- 4. Занятия -->
+    <section class="screen" id="screen-activity">
+        <div class="card wide-card">
+            <div class="step">Шаг 3 из 4</div>
+
+            <h2>Чем займёмся? 🥰</h2>
+            <p class="hint">Можно выбрать несколько вариантов</p>
+
+
+            <!-- Кино -->
+            <div class="category">
+                <button class="category-title" onclick="toggleCategory('movie-list', this)">
+                    <span>🎬 Кино</span>
+                    <span class="arrow">⌄</span>
+                </button>
+
+                <div class="category-content" id="movie-list">
+
+                    <button class="sub-option activity-option"
+                            data-value="Кино">
+                        Кино
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Комедия">
+                        Комедия
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Ужастик">
+                        Ужастик
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Мелодрама">
+                        Мелодрама
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Фантастика">
+                        Фантастика
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Боевик">
+                        Боевик
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Детектив">
+                        Детектив
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- На улице -->
+            <div class="category">
+                <button class="category-title" onclick="toggleCategory('outside-list', this)">
+                    <span>🌆 На улице</span>
+                    <span class="arrow">⌄</span>
+                </button>
+
+                <div class="category-content" id="outside-list">
+
+                    <button class="sub-option activity-option"
+                            data-value="Ресторан">
+                        Ресторан
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Прогулка">
+                        Прогулка
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Парк">
+                        Парк
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Пикник">
+                        Пикник
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Кафе">
+                        Кафе
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Картинг">
+                        Картинг
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Боулинг">
+                        Боулинг
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Бильярд">
+                        Бильярд
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- Дома -->
+            <div class="category">
+                <button class="category-title" onclick="toggleCategory('home-list', this)">
+                    <span>🏠 Дома</span>
+                    <span class="arrow">⌄</span>
+                </button>
+
+                <div class="category-content" id="home-list">
+
+                    <button class="sub-option activity-option"
+                            data-value="Дома вдвоём">
+                        Дома вдвоём
+                    </button>
+
+                    <button class="sub-option activity-option"
+                            data-value="Кино дома">
+                        Кино дома
+                    </button>
+
+                </div>
+            </div>
+
+
+            <button class="continue-button" id="activity-next" disabled
+                    onclick="goToFood()">
+                Далее →
+            </button>
+
+        </div>
     </section>
 
-    <section class="screen" id="food">
-      <div class="card">
-        <div class="step">4 / 4</div>
-        <h2>А покушать?</h2>
-        <p class="hint">Без этого свидание не считается 😌</p>
-        <div class="options" id="foodOptions"></div>
-        <button class="next" onclick="finish()">Готово ❤️</button>
-      </div>
+
+    <!-- 5. Еда -->
+    <section class="screen" id="screen-food">
+        <div class="card wide-card">
+            <div class="step">Шаг 4 из 4</div>
+
+            <h2>Что будем кушать? 🍽️</h2>
+            <p class="hint">Можно выбрать несколько вариантов</p>
+
+            <div class="food-grid">
+
+                <button class="food-option" data-value="Суши">🍣 Суши</button>
+
+                <button class="food-option" data-value="Шашлык">🍖 Шашлык</button>
+
+                <button class="food-option" data-value="Пицца">🍕 Пицца</button>
+
+                <button class="food-option" data-value="Бургер">🍔 Бургер</button>
+
+                <button class="food-option" data-value="Винишко">🍷 Винишко</button>
+
+                <button class="food-option" data-value="Торт">🎂 Торт</button>
+
+                <button class="food-option" data-value="Пиво">🍺 Пиво</button>
+
+                <button class="food-option" data-value="Шаверма">🌯 Шаверма</button>
+
+                <button class="food-option" data-value="Попкорн">🍿 Попкорн</button>
+
+                <button class="food-option" data-value="Мороженое">🍦 Мороженое</button>
+
+                <button class="food-option" data-value="Паста">🍝 Паста</button>
+
+                <button class="food-option" data-value="Хинкали">🥟 Хинкали</button>
+
+                <button class="food-option custom-food"
+                        data-value="Твой выбор">
+                    ✍️ Твой выбор
+                </button>
+
+            </div>
+
+
+            <div class="custom-food-box" id="custom-food-box">
+                <label for="custom-food-input">
+                    Напиши, что хочешь ❤️
+                </label>
+
+                <input
+                    type="text"
+                    id="custom-food-input"
+                    placeholder="Например: роллы, морепродукты..."
+                    maxlength="100"
+                >
+            </div>
+
+
+            <button class="continue-button"
+                    id="finish-button"
+                    disabled
+                    onclick="finishDate()">
+                Готово ❤️
+            </button>
+
+        </div>
     </section>
 
-    <section class="screen" id="done">
-      <div class="card result-card">
-        <div class="big-heart">💌</div>
-        <p class="eyebrow">всё выбрано</p>
-        <h2>Отличный выбор, Арина ❤️</h2>
-        <div class="summary" id="summary"></div>
-        <p class="sending" id="sending">Отправляю Андрею...</p>
-        <button class="primary" id="again" onclick="location.reload()" style="display:none">Выбрать заново</button>
-      </div>
+
+    <!-- 6. Финальный экран -->
+    <section class="screen" id="screen-done">
+        <div class="card done-card">
+
+            <div class="big-heart pulse">❤️</div>
+
+            <h1>Спасибо, Ариша!</h1>
+
+            <p class="done-text">
+                Твой выбор уже у Андрея 💌
+            </p>
+
+            <p class="done-subtext">
+                Теперь осталось только дождаться нашего свидания ❤️
+            </p>
+
+            <div class="summary" id="summary"></div>
+
+        </div>
     </section>
-  </main>
-  <script src="script.js"></script>
+
+</main>
+
+<script src="script.js"></script>
+
 </body>
 </html>
+```
