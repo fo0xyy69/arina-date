@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для Арины ❤️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <div class="hearts" aria-hidden="true">♥　♡　♥　♡　♥</div>
+
+    <section class="screen active" id="intro">
+      <div class="card intro-card">
+        <div class="emoji">❤️</div>
+        <p class="eyebrow">маленькое приглашение</p>
+        <h1>Арина, давай выберем<br>наше свидание?</h1>
+        <p class="subtitle">Я приготовил для тебя несколько вариантов.<br>Выбирай то, чего хочется именно тебе.</p>
+        <button class="primary" onclick="start()">Выбрать ❤️</button>
+        <p class="from">От Андрея</p>
+      </div>
+    </section>
+
+    <section class="screen" id="date">
+      <div class="card">
+        <div class="step">1 / 4</div>
+        <h2>Когда увидимся?</h2>
+        <p class="hint">Выбери удобную дату</p>
+        <div class="options" id="dateOptions"></div>
+        <button class="next" onclick="go('time')">Дальше →</button>
+      </div>
+    </section>
+
+    <section class="screen" id="time">
+      <div class="card">
+        <div class="step">2 / 4</div>
+        <h2>Во сколько?</h2>
+        <p class="hint">Когда тебе будет удобнее?</p>
+        <div class="options grid" id="timeOptions"></div>
+        <button class="next" onclick="go('activity')">Дальше →</button>
+      </div>
+    </section>
+
+    <section class="screen" id="activity">
+      <div class="card">
+        <div class="step">3 / 4</div>
+        <h2>Чем займёмся?</h2>
+        <p class="hint">Выбирай, что хочется ❤️</p>
+        <div class="options" id="activityOptions"></div>
+        <button class="next" onclick="go('food')">Дальше →</button>
+      </div>
+    </section>
+
+    <section class="screen" id="food">
+      <div class="card">
+        <div class="step">4 / 4</div>
+        <h2>А покушать?</h2>
+        <p class="hint">Без этого свидание не считается 😌</p>
+        <div class="options" id="foodOptions"></div>
+        <button class="next" onclick="finish()">Готово ❤️</button>
+      </div>
+    </section>
+
+    <section class="screen" id="done">
+      <div class="card result-card">
+        <div class="big-heart">💌</div>
+        <p class="eyebrow">всё выбрано</p>
+        <h2>Отличный выбор, Арина ❤️</h2>
+        <div class="summary" id="summary"></div>
+        <p class="sending" id="sending">Отправляю Андрею...</p>
+        <button class="primary" id="again" onclick="location.reload()" style="display:none">Выбрать заново</button>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
