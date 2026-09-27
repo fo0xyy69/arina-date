@@ -1,4 +1,3 @@
-```javascript
 const API_URL = "https://arina-date-telegram.strygin647.workers.dev";
 
 const choices = {
@@ -297,4 +296,3 @@ function escapeHtml(text) {
 
     return div.innerHTML;
 }
-```
